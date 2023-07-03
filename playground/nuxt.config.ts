@@ -4,10 +4,10 @@ export default defineNuxtConfig({
     transforms: {
       contact: "kontakt",
       users: [
-        "brugere", // Først på listen efter children er tilføjet
+        "brugere", // Only added to the rule list after adding it's children
         {
-          // Ingen ændring fordi det er en dynamisk route
-          "[userId]": {
+          // No change because it's a dynamic route
+          "[user]": {
             friends: "venner",
             settings: "indstillinger",
           },

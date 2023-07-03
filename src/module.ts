@@ -13,7 +13,7 @@ interface ParsedTransforms {
 // Module options TypeScript interface definition
 export interface ModuleOptions {
   transforms?: Transforms;
-  baseUrl?: string;
+  // baseUrl?: string; // TODO: Add baseUrl in a future version
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -23,22 +23,20 @@ export default defineNuxtModule<ModuleOptions>({
   },
   // Default configuration options of the Nuxt module
   defaults: {
-    baseUrl: "/",
+    // baseUrl: "/", // TODO: Add baseUrl in a future version
   },
-  setup(options, nuxt) {
+  setup(options) {
     if (!options.transforms) return;
 
     const parsedTransforms = parseTransforms(options.transforms);
 
-    console.dir(parsedTransforms);
     extendPages((pages) => {
-      // transform routes
-      pages = transformPages(pages, parsedTransforms);
+      // Transform routes
+      const transformedPages = transformPages(pages, parsedTransforms);
 
-      // print all routes
-      pages.forEach((page) => {
-        console.dir(page);
-      });
+      // Replace pages with transformed pages
+      pages.length = 0;
+      pages.push(...transformedPages);
     });
   },
 });
@@ -75,31 +73,41 @@ function parseTransforms(
   }, {});
 }
 
-function transformPage(page: NuxtPage, parsedTransforms: ParsedTransforms) {
-  return Object.entries(parsedTransforms).reduce(
-    (pageAcc: NuxtPage | undefined, [from, to]) => {
-      if (pageAcc === undefined) return;
+function transformPages(
+  pages: NuxtPage[],
+  parsedTransforms: ParsedTransforms,
+  pathPrefix: string = ""
+) {
+  return pages.reduce((pagesAcc: NuxtPage[], page) => {
+    // Transform potential children first
+    if (page.children && page.children.length > 0) {
+      page.children = transformPages(
+        page.children ?? [],
+        parsedTransforms,
+        page.path + "/"
+      );
+    }
 
-      const pathWithTrailingSlash = pageAcc.path + "/";
-      if (!pathWithTrailingSlash.startsWith(from + "/")) return pageAcc;
+    for (const [from, to] of Object.entries(parsedTransforms)) {
+      const pathWithSlash = pathPrefix + page.path + "/";
+      const fromWithSlash = from + "/";
 
-      if (to === false) return;
+      const isMatch = pathWithSlash.startsWith(fromWithSlash);
+      const onlyMatchesParent = fromWithSlash.length <= pathPrefix.length;
 
-      return {
-        ...pageAcc,
-        path: to + pageAcc.path.slice(from.length),
+      // Skip transform if the paths don't match or if the transform only matches the parent
+      if (!isMatch || onlyMatchesParent) continue;
+
+      // Delete page if transform is false
+      if (to === false) return pagesAcc;
+
+      // Apply transform
+      page = {
+        ...page,
+        path: (to + page.path.slice(from.length)).slice(pathPrefix.length),
       };
-    },
-    page
-  );
-}
+    }
 
-function transformPages(pages: NuxtPage[], parsedTransforms: ParsedTransforms) {
-  return pages.reduce((acc: NuxtPage[], page) => {
-    const transformedPage = transformPage(page, parsedTransforms);
-
-    if (transformedPage === undefined) return acc;
-
-    return [...acc, transformedPage];
+    return [...pagesAcc, page];
   }, [] as NuxtPage[]);
 }
