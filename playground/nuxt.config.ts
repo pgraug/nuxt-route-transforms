@@ -4,7 +4,7 @@ export default defineNuxtConfig({
     transforms: {
       contact: "kontakt",
       users: [
-        "brugere", // Only added to the rule list after adding it's children
+        "brugere", // Only added to the transforms list after adding it's children
         {
           // No change because it's a dynamic route
           "[user]": {
