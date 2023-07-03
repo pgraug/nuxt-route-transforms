@@ -2,8 +2,12 @@ import { defineNuxtModule, extendPages } from "@nuxt/kit";
 import { formatPathSegment } from "./utils";
 import { NuxtPage } from "@nuxt/schema";
 
-interface Transforms {
-  [key: string]: string | boolean | Transforms | [string | boolean, Transforms];
+interface RouteTransforms {
+  [key: string]:
+    | string
+    | boolean
+    | RouteTransforms
+    | [string | boolean, RouteTransforms];
 }
 
 interface ParsedTransforms {
@@ -11,24 +15,19 @@ interface ParsedTransforms {
 }
 
 // Module options TypeScript interface definition
-export interface ModuleOptions {
-  transforms?: Transforms;
-  // baseUrl?: string; // TODO: Add baseUrl in a future version
-}
+export interface ModuleOptions extends RouteTransforms {}
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: "nuxt-route-transform",
-    configKey: "routeTransform",
+    name: "nuxt-route-transforms",
+    configKey: "routeTransforms",
   },
   // Default configuration options of the Nuxt module
-  defaults: {
-    // baseUrl: "/", // TODO: Add baseUrl in a future version
-  },
-  setup(options) {
-    if (!options.transforms) return;
+  defaults: {},
+  setup(transforms: RouteTransforms) {
+    if (!transforms) return;
 
-    const parsedTransforms = parseTransforms(options.transforms);
+    const parsedTransforms = parseTransforms(transforms);
 
     extendPages((pages) => {
       // Transform routes
@@ -42,7 +41,7 @@ export default defineNuxtModule<ModuleOptions>({
 });
 
 function parseTransforms(
-  transforms: Transforms,
+  transforms: RouteTransforms,
   pathPrefix: string = ""
 ): ParsedTransforms {
   const transformEntries = Object.entries(transforms);

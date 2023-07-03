@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "nuxt-route-transform-playground",
+  "name": "nuxt-route-transforms-playground",
   "type": "module",
   "scripts": {
     "dev": "nuxi dev",

@@ -1,13 +1,4 @@
-<!--
-Get your module up and running quickly.
-
-Find and replace all on all files (CMD+SHIFT+F):
-- Name: My Module
-- Package name: nuxt-route-transform
-- Description: My new Nuxt module
--->
-
-# My Module
+# nuxt-route-transforms
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
@@ -17,7 +8,7 @@ Find and replace all on all files (CMD+SHIFT+F):
 My new Nuxt module for doing amazing things.
 
 - [✨ &nbsp;Release Notes](/CHANGELOG.md)
-  <!-- - [🏀 Online playground](https://stackblitz.com/github/your-org/nuxt-route-transform?file=playground%2Fapp.vue) -->
+  <!-- - [🏀 Online playground](https://stackblitz.com/github/your-org/nuxt-route-transforms?file=playground%2Fapp.vue) -->
   <!-- - [📖 &nbsp;Documentation](https://example.com) -->
 
 ## Features
@@ -30,28 +21,45 @@ My new Nuxt module for doing amazing things.
 
 ## Quick Setup
 
-1. Add `nuxt-route-transform` dependency to your project
+1. Add `nuxt-route-transforms` dependency to your project
 
 ```bash
 # Using pnpm
-pnpm add -D nuxt-route-transform
+pnpm add -D nuxt-route-transforms
 
 # Using yarn
-yarn add --dev nuxt-route-transform
+yarn add --dev nuxt-route-transforms
 
 # Using npm
-npm install --save-dev nuxt-route-transform
+npm install --save-dev nuxt-route-transforms
 ```
 
-2. Add `nuxt-route-transform` to the `modules` section of `nuxt.config.ts`
+2. Add `nuxt-route-transforms` to the `modules` section of `nuxt.config.ts`
 
 ```js
 export default defineNuxtConfig({
-  modules: ["nuxt-route-transform"],
+  modules: ["nuxt-route-transforms"],
 });
 ```
 
-That's it! You can now use My Module in your Nuxt app ✨
+3. Add a `routeTransforms` section to your `nuxt.config.ts` to start transforming routes
+
+```js
+export default defineNuxtConfig({
+  routeTransforms: {
+    /* 
+    // Transforms /cheese to /fromage
+    transforms: { cheese: 'fromage' },
+  */
+  },
+});
+```
+
+That's it! You can now use nuxt-route-transforms in your Nuxt app ✨
+
+## Transform config form
+
+I know... I know
 
 ## Development
 
@@ -81,11 +89,11 @@ npm run release
 
 <!-- Badges -->
 
-[npm-version-src]: https://img.shields.io/npm/v/nuxt-route-transform/latest.svg?style=flat&colorA=18181B&colorB=28CF8D
-[npm-version-href]: https://npmjs.com/package/nuxt-route-transform
-[npm-downloads-src]: https://img.shields.io/npm/dm/nuxt-route-transform.svg?style=flat&colorA=18181B&colorB=28CF8D
-[npm-downloads-href]: https://npmjs.com/package/nuxt-route-transform
-[license-src]: https://img.shields.io/npm/l/nuxt-route-transform.svg?style=flat&colorA=18181B&colorB=28CF8D
-[license-href]: https://npmjs.com/package/nuxt-route-transform
+[npm-version-src]: https://img.shields.io/npm/v/nuxt-route-transforms/latest.svg?style=flat&colorA=18181B&colorB=28CF8D
+[npm-version-href]: https://npmjs.com/package/nuxt-route-transforms
+[npm-downloads-src]: https://img.shields.io/npm/dm/nuxt-route-transforms.svg?style=flat&colorA=18181B&colorB=28CF8D
+[npm-downloads-href]: https://npmjs.com/package/nuxt-route-transforms
+[license-src]: https://img.shields.io/npm/l/nuxt-route-transforms.svg?style=flat&colorA=18181B&colorB=28CF8D
+[license-href]: https://npmjs.com/package/nuxt-route-transforms
 [nuxt-src]: https://img.shields.io/badge/Nuxt-18181B?logo=nuxt.js
 [nuxt-href]: https://nuxt.com

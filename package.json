@@ -1,8 +1,8 @@
 {
-  "name": "nuxt-route-transform",
+  "name": "nuxt-route-transforms",
   "version": "0.0.1",
   "description": "Nuxt 3 module to transform routes. Useful for i18n, multi-tenant apps, etc.",
-  "repository": "pgraug/nuxt-route-transform",
+  "repository": "pgraug/nuxt-route-transforms",
   "license": "MIT",
   "type": "module",
   "exports": {
