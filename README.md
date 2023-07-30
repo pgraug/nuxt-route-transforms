@@ -5,19 +5,17 @@
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
-My new Nuxt module for doing amazing things.
+Nuxt module for transforming routes. Useful for i18n, multi-tenant apps and disabling routes
 
 - [✨ &nbsp;Release Notes](/CHANGELOG.md)
-  <!-- - [🏀 Online playground](https://stackblitz.com/github/your-org/nuxt-route-transforms?file=playground%2Fapp.vue) -->
+  <!-- - [🏀 Online playground](https://stackblitz.com/github/pgraug/nuxt-route-transforms?file=playground%2Fapp.vue) -->
   <!-- - [📖 &nbsp;Documentation](https://example.com) -->
 
 ## Features
 
-<!-- Highlight some of the features your module provide here -->
-
-- ⛰ &nbsp;Foo
-- 🚠 &nbsp;Bar
-- 🌲 &nbsp;Baz
+- 🖋️ &nbsp;Rename and disable routes
+- 🤝 &nbsp;Works with both /pages and manually added routes
+- 🪜 &nbsp;Supports nested routes too
 
 ## Quick Setup
 
@@ -47,44 +45,77 @@ export default defineNuxtConfig({
 ```js
 export default defineNuxtConfig({
   routeTransforms: {
-    /* 
-    // Transforms /cheese to /fromage
-    transforms: { cheese: 'fromage' },
-  */
+    /* Transforms go here */
   },
 });
 ```
 
 That's it! You can now use nuxt-route-transforms in your Nuxt app ✨
 
-## Transform config form
+## Transform config format
 
-I know... I know
+Route transforms are configured in the `routeTransforms` part of your `nuxt.config.ts` like this:
+
+```js
+export default defineNuxtConfig({
+  routeTransforms: {
+    // Renaming a route: This renames /cheeses to /fromages. (Also affects subroutes)
+    cheeses: "fromages",
+
+    // Disabling routes: This removes the /jams route and it's subroutes (true doesn't do anything so you can use a boolean determine if it should be disabled or not)
+    jams: false,
+
+    //  Use an object to rename or disable subroutes but not their parent route
+    // It's typed the same as 'routeTransforms' itself
+    souffles: {
+      // This renames /souffles/lemon to /souffles/citron
+      lemon: "citron",
+    },
+
+    // Finally you can rename or disable both a parent route and its subroutes using an array with two items
+    soups: [
+      // The first item works like the first two examples. A string renames the route and false disables it and its subroutes
+      "soupe",
+
+      // The second items is an object and works the same as the third example.
+      // It's typed the same as 'routeTransforms' itself
+      {
+        fish: "poisonns",
+        "big-mac": false,
+      },
+    ],
+  },
+});
+```
+
+I know it seems a little weird but I found it to be the simplest way to support transforming routes at multiple levels of the route tree.
+
+Very open to other ideas though.
 
 ## Development
 
 ```bash
 # Install dependencies
-npm install
+pnpm install
 
 # Generate type stubs
-npm run dev:prepare
+pnpm run dev:prepare
 
 # Develop with the playground
-npm run dev
+pnpm run dev
 
 # Build the playground
-npm run dev:build
+pnpm run dev:build
 
 # Run ESLint
-npm run lint
+pnpm run lint
 
 # Run Vitest
-npm run test
-npm run test:watch
+pnpm run test
+pnpm run test:watch
 
 # Release new version
-npm run release
+pnpm run release
 ```
 
 <!-- Badges -->
